@@ -1,0 +1,90 @@
+body {
+	/*background-image: url(../images/waterSeamlessLoop.gif);
+	background-size: cover;*/
+	background-image: -webkit-linear-gradient(top, #00C5D9, #066A9B);
+	background-image: -moz-linear-gradient(top, #00C5D9, #066A9B);
+	background-image: -ms-linear-gradient(top, #00C5D9, #066A9B);
+	background-image: -o-linear-gradient(top, #00C5D9, #066A9B);
+	background-image: linear-gradient(top, #00C5D9, #066A9B);
+	font-family: 'Patrick Hand', cursive;
+	margin: 0;
+	padding: 0;
+}
+#game-container {
+	text-align: center;
+	height: 25vh;
+	width: 100vw;
+}
+#click-container{
+	position: relative;
+	height: 75vh;
+	width: 75vw;
+	margin: 0 auto;
+}
+
+h1 {
+	margin: 0;
+	padding: 20px;
+}
+button#start-btn {
+	margin: 0 auto;
+	padding: 4px 8px;
+	font-size: 18px;
+	border: 0;
+	border-radius: 5%;
+}
+
+.fish {
+	width: 50px;
+	height: 50px;
+	background-color: #F7A400;
+	transform:rotate(45deg);
+  border-radius: 50%;
+	position: absolute;
+	transition: opacity 1s;
+	cursor: pointer;
+	animation-name: appear;
+  animation-duration: 0.5s;
+}
+.fish:after {
+	content:"";
+	border-color: transparent #F7A400;
+  border-style: solid;
+  border-width: 20px 20px 20px 0px;
+  transform-origin: center left;
+  transform: rotate(-45deg);
+  position: absolute;
+  right: -15%;
+  top: -15%;
+}
+.fish:before {
+  content: "";
+  background-color: #FFF;
+  height: 8px;
+  width: 8px;
+  display: block;
+  border-radius: 50%;
+  top: 50%;
+  position: absolute;
+  left: 10%;
+}
+.rare-fish {
+	background-color: #B02C90;
+}
+.rare-fish:after {
+	border-color: transparent #B02C90;
+}
+.fish.caught {
+	opacity: 0;
+}
+
+@keyframes appear {
+  from {
+  	opacity: 0;
+  	padding-left: 20px;
+  }
+  to {
+  	opacity: 1;
+  	padding-left: 0px;
+  }
+}
