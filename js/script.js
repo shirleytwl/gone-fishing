@@ -1,17 +1,24 @@
 window.onload = function() {
     var gameContainer = document.querySelector("#game-container");
     var clickContainer = document.querySelector("#click-container");
+    var fishingLine = document.querySelector("#line");
     var startScreen = document.querySelector("#start-screen");
     var startTitle = document.querySelector("#start-title");
     var startBtn = document.querySelector("#start-btn");
-    var gameTimer = null;
-    var scoreText = null;
+    var gameStats = document.querySelector("#game-stats");
+    var gameTimer = document.querySelector("#game-timer");
+    var gameScore = document.querySelector("#game-score");
     var score = 0;
     var fishTracker = [0,0,0] //first item is fish, second is rare fish, third is trash
     startBtn.addEventListener("click", startGame);
-
+    clickContainer.addEventListener("mousemove", moveLine);
     var createFishes = null;
 
+    function moveLine (event){
+        console.log (event.clientX);
+        fishingLine.style.left= event.clientX+"px";
+        fishingLine.style.top = event.clientY+"px";
+    }
     //start game function
     function startGame () {
         score = 0;
@@ -21,6 +28,7 @@ window.onload = function() {
             gameContainer.removeChild(document.querySelector("#game-over"));
         }
         clickContainer.style.display = "block";
+        gameStats.style.display = "block";
         createTimer();
         createFishes = setInterval(createFish, 1500);
         createRareFishes = setInterval(createRareFish, 3000);
@@ -28,14 +36,8 @@ window.onload = function() {
     }
     //create timer function
     function createTimer () {
-        gameTimer = document.createElement("p");
-        gameTimer.setAttribute("id","game-timer");
-        gameScore = document.createElement("p");
-        gameScore.setAttribute("id","game-score");
         gameTimer.innerText = "Time: 10s";
         gameScore.innerText = "Score: 0";
-        gameContainer.appendChild(gameTimer);
-        gameContainer.appendChild(gameScore);
         let sec = 0;
         var gameTimerInterval = setInterval(startGameTimer, 1000);
         function startGameTimer () {
@@ -92,32 +94,43 @@ window.onload = function() {
     function setPosition(fish) {
         let leftPos = Math.floor(Math.random() * (clickContainer.offsetWidth-100));
         let topPos = Math.floor(Math.random() * (clickContainer.offsetHeight-100));
-        // if (prevFishPosition[0] === null ) {
-            fish.style.left = leftPos+"px";
-            fish.style.top = topPos+"px";
-        // }
+        fish.style.left = leftPos+"px";
+        fish.style.top = topPos+"px";
     }
     function hit(event) {
         let type = event.target.className;
-        console.log(type);
+        let hitText = document.createElement('span');
+        hitText.setAttribute('class','hit-text');
+        this.parentNode.insertBefore(hitText,this);
+        hitText.style.left = this.style.left;
+        hitText.style.top = this.style.top;
+        event.target.classList.add("caught");
         if (type === "fish") {
+            hitText.innerText = "+1";
+            hitText.style.color = "white";
             score++;
             fishTracker[0]++;
         }
         else if (type === "rare-fish") {
+            hitText.innerText = "+5";
+            hitText.style.color = "white";
             score+=5;
             fishTracker[1]++;
         }
         else if (type === "trash"){
+            hitText.innerText = "-3";
+            hitText.style.color = "red";
             score-=3;
             fishTracker[2]++;
         }
-        event.target.classList.add("caught");
+        setTimeout(function() {
+            //fish.addClass("disappear");
+            clickContainer.removeChild(hitText);
+        }, 1000);
         gameScore.innerText = `Score: ${score}`;
     }
     function endGame() {
-        gameContainer.removeChild(gameTimer);
-        gameContainer.removeChild(gameScore);
+        gameStats.style.display = "none";
         startTitle.style.display = "block";
         startBtn.style.display = "block";
         clickContainer.style.display = "none";

@@ -16,15 +16,15 @@ body {
 	height: 100vh;
 	width: 100vw;
 }
-#game-timer {
+#game-stats {
 	position: absolute;
-	left: 20px;
-	top: 20px;
+	left: 28px;
+	top: 28px;
+	display: none;
 }
-#game-score {
-	position: absolute;
-	left: 20px;
-	top: 60px;
+#game-score,
+#game-timer {
+	display:block;
 }
 #click-container{
 	display: none;
@@ -32,9 +32,18 @@ body {
 	height: 100vh;
 	width: 75vw;
 	margin: 0 auto;
-	cursor:url(../images/fishing.cur) 22 25,auto;
+	cursor:url(../images/hook.cur) 12 16,auto;
 }
-
+#line{
+	display: block;
+	position:absolute;
+	height: 100vh;
+	width: 1px;
+	background-color: white;
+	transform: translate(-12.5vw,-100%);
+	margin-left: 8px;
+	margin-top: -12px;
+}
 h1 {
 	margin: 0;
 	padding: 20px;
@@ -152,9 +161,16 @@ button#start-btn .arrow {
 .fish.caught,
 .rare-fish.caught,
 .trash.caught {
-	animation-name: pull-up;
-  animation-duration: 0.5s;
+	animation: pull-up 0.5s;
   animation-fill-mode: forwards;
+}
+
+.hit-text {
+	position: absolute;
+	top: -20px;
+	animation-name: point;
+	animation-duration: 0.75s;
+	animation-fill-mode: forwards;
 }
 
 @keyframes appear {
@@ -203,5 +219,18 @@ button#start-btn .arrow {
 	to {
 		margin-top: -50px;
 		opacity:0;
+	}
+}
+
+@keyframes point {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateY(-25px);
+		opacity: 0;
 	}
 }

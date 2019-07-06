@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Catch A Fish!</title>
+    <title>Gone Fishing!</title>
     <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <div id="game-container">
-        <h1 id="start-title"> Catch A Fish!</h1>
+        <h1 id="start-title">Gone Fishing!</h1>
         <button id="start-btn"><span class="arrow"></span></button>
+        <div id="game-stats">
+            <!-- <span id="game-day">Day 1</span> -->
+            <span id="game-timer">Timer: 10s</span>
+            <span id="game-score">Score: 0</span>
+        </div>
     </div>
-    <div id="click-container"></div>
+    <div id="click-container">
+        <span id="line"></span>
+    </div>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
