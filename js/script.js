@@ -2,6 +2,7 @@ window.onload = function() {
     var gameContainer = document.querySelector("#game-container");
     var clickContainer = document.querySelector("#click-container");
     var startScreen = document.querySelector("#start-screen");
+    var startTitle = document.querySelector("#start-title");
     var startBtn = document.querySelector("#start-btn");
     var gameTimer = null;
     var scoreText = null;
@@ -15,9 +16,15 @@ window.onload = function() {
     function startGame () {
         score = 0;
         startBtn.style.display = "none";
+        startTitle.style.display = "none";
+        if (document.querySelector("#game-over")) {
+            gameContainer.removeChild(document.querySelector("#game-over"));
+        }
+        clickContainer.style.display = "block";
         createTimer();
-        createFishes = setInterval(createFish, 1000);
-        createRareFishes = setInterval(createRareFish, 2000);
+        createFishes = setInterval(createFish, 1500);
+        createRareFishes = setInterval(createRareFish, 3000);
+        createTrashes = setInterval(createTrash, 2000);
     }
     //create timer function
     function createTimer () {
@@ -25,18 +32,19 @@ window.onload = function() {
         gameTimer.setAttribute("id","game-timer");
         gameScore = document.createElement("p");
         gameScore.setAttribute("id","game-score");
-        gameTimer.innerText = "Time: ";
+        gameTimer.innerText = "Time: 10s";
         gameScore.innerText = "Score: 0";
         gameContainer.appendChild(gameTimer);
         gameContainer.appendChild(gameScore);
         let sec = 0;
         var gameTimerInterval = setInterval(startGameTimer, 1000);
         function startGameTimer () {
-            gameTimer.innerText = `${10-sec}s`
+            gameTimer.innerText = `Time: ${10-sec}s`
             if (sec === 10) {
                 clearInterval(gameTimerInterval);
                 clearInterval(createFishes);
                 clearInterval(createRareFishes);
+                clearInterval(createTrashes);
                 sec = 0;
                 endGame();
             }
@@ -51,22 +59,34 @@ window.onload = function() {
         fish.classList.add("fish");
         clickContainer.appendChild(fish);
         setPosition(fish);
-        fish.addEventListener("click", addScore);
+        fish.addEventListener("click", hit);
         setTimeout(function() {
-          clickContainer.removeChild(fish);
-        }, 2000);
+            //fish.addClass("disappear");
+            clickContainer.removeChild(fish);
+        }, 3500);
     }
     //create fish function
     function createRareFish () {
         let fish = document.createElement("div");
-        fish.classList.add("fish");
         fish.classList.add("rare-fish");
         clickContainer.appendChild(fish);
         setPosition(fish);
-        fish.addEventListener("click", addScore);
+        fish.addEventListener("click", hit);
         setTimeout(function() {
+            //fish.addClass("disappear");
             clickContainer.removeChild(fish);
-        }, 1000);
+        }, 2000);
+    }
+    //create fish function
+    function createTrash () {
+        let trash = document.createElement("div");
+        trash.classList.add("trash");
+        clickContainer.appendChild(trash);
+        setPosition(trash);
+        trash.addEventListener("click", hit);
+        setTimeout(function() {
+            clickContainer.removeChild(trash);
+        }, 3000);
     }
 
     function setPosition(fish) {
@@ -77,16 +97,20 @@ window.onload = function() {
             fish.style.top = topPos+"px";
         // }
     }
-    function addScore(event) {
+    function hit(event) {
         let type = event.target.className;
         console.log(type);
         if (type === "fish") {
             score++;
             fishTracker[0]++;
         }
-        else if (type === "fish rare-fish") {
+        else if (type === "rare-fish") {
             score+=5;
             fishTracker[1]++;
+        }
+        else if (type === "trash"){
+            score-=3;
+            fishTracker[2]++;
         }
         event.target.classList.add("caught");
         gameScore.innerText = `Score: ${score}`;
@@ -94,8 +118,9 @@ window.onload = function() {
     function endGame() {
         gameContainer.removeChild(gameTimer);
         gameContainer.removeChild(gameScore);
+        startTitle.style.display = "block";
         startBtn.style.display = "block";
-        startBtn.innerText = "Play again?"
+        clickContainer.style.display = "none";
 
         gameOver = document.createElement("p");
         gameOver.setAttribute("id","game-over");

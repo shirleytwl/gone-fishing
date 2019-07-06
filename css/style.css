@@ -1,25 +1,38 @@
 body {
-	/*background-image: url(../images/waterSeamlessLoop.gif);
-	background-size: cover;*/
 	background-image: -webkit-linear-gradient(top, #00C5D9, #066A9B);
 	background-image: -moz-linear-gradient(top, #00C5D9, #066A9B);
 	background-image: -ms-linear-gradient(top, #00C5D9, #066A9B);
 	background-image: -o-linear-gradient(top, #00C5D9, #066A9B);
 	background-image: linear-gradient(top, #00C5D9, #066A9B);
 	font-family: 'Patrick Hand', cursive;
+	font-size: 21px;
 	margin: 0;
 	padding: 0;
+  height: 100vh;
 }
 #game-container {
+	position: absolute;
 	text-align: center;
-	height: 25vh;
+	height: 100vh;
 	width: 100vw;
 }
+#game-timer {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+}
+#game-score {
+	position: absolute;
+	left: 20px;
+	top: 60px;
+}
 #click-container{
+	display: none;
 	position: relative;
-	height: 75vh;
+	height: 100vh;
 	width: 75vw;
 	margin: 0 auto;
+	cursor:url(../images/fishing.cur) 22 25,auto;
 }
 
 h1 {
@@ -28,10 +41,18 @@ h1 {
 }
 button#start-btn {
 	margin: 0 auto;
-	padding: 4px 8px;
+	padding: 50px;
 	font-size: 18px;
-	border: 0;
-	border-radius: 5%;
+	background: transparent;
+	border: 4px solid white;
+	border-radius: 50%;
+	cursor:pointer;
+}
+button#start-btn .arrow {
+	display: block;
+	border-color: transparent white;
+  border-style: solid;
+  border-width: 30px 0px 30px 60px;
 }
 
 .fish {
@@ -42,7 +63,6 @@ button#start-btn {
   border-radius: 50%;
 	position: absolute;
 	transition: opacity 1s;
-	cursor: pointer;
 	animation-name: appear;
   animation-duration: 0.5s;
 }
@@ -57,7 +77,8 @@ button#start-btn {
   right: -15%;
   top: -15%;
 }
-.fish:before {
+.fish:before,
+.rare-fish:before {
   content: "";
   background-color: #FFF;
   height: 8px;
@@ -69,22 +90,118 @@ button#start-btn {
   left: 10%;
 }
 .rare-fish {
+	width: 50px;
+	height: 50px;
 	background-color: #B02C90;
+	transform:rotate(45deg);
+  border-radius: 25%;
+	position: absolute;
+	transition: opacity 1s;
+	animation-name: appear;
+  animation-duration: 0.5s;
+}
+.rare-fish:after {
+	content:"";
+	border-color: transparent #B02C90;
+  border-style: solid;
+  border-width: 20px 20px 20px 0px;
+  transform-origin: center left;
+  transform: rotate(-45deg);
+  position: absolute;
+  right: -15%;
+  top: -15%;
 }
 .rare-fish:after {
 	border-color: transparent #B02C90;
 }
-.fish.caught {
-	opacity: 0;
+
+.trash {
+  width: 30px;
+  border-radius:50% 50% 25% 25%;
+  height:40px;
+  background-color: rgba(255,255,255,0.3333);
+  position: absolute;
+  transition: all 1s;
+  transform: rotate(-90deg);
+	animation-name: float;
+	animation-duration: 1s;
+	animation-timing-function: linear;
+}
+.trash:before {
+  content: "";
+  width: 15px;
+  height: 8px;
+  border-radius: 10%;
+  background-color: #C70437;
+  position:absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%);
+
+}
+.trash:after {
+  content: "";
+  width: 30px;
+  height: 50px;
+  border-radius: 25% 25% 30% 30%;
+  background-color: rgba(255,255,255,0.3333);
+  position: absolute;
+  top: 40px;
+}
+
+.fish.caught,
+.rare-fish.caught,
+.trash.caught {
+	animation-name: pull-up;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes appear {
   from {
   	opacity: 0;
-  	padding-left: 20px;
+  	margin-left: 50px;
   }
   to {
   	opacity: 1;
-  	padding-left: 0px;
+  	margin-left: 0px;
   }
+}
+@keyframes float {
+  0% {
+  	opacity: 0;
+  	margin-left: 0px;
+  	margin-top: -20px
+  }
+  25% {
+  	opacity: 0.25;
+  	margin-left: -10px;
+  	margin-top: -15px
+  }
+  50% {
+  	opacity: 0.5;
+  	margin-left: 0px;
+  	margin-top: -10px
+  }
+  75% {
+  	opacity: 0.75;
+  	margin-left: 10px;
+  	margin-top: -5px
+  }
+  100% {
+  	opacity: 1;
+  	margin-left: 0px;
+  	margin-top: 0px;
+  }
+}
+
+@keyframes pull-up {
+	from {
+		margin-top: 0;
+		opacity: 1;
+	}
+	to {
+		margin-top: -50px;
+		opacity:0;
+	}
 }
