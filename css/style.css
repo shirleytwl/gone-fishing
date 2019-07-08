@@ -9,6 +9,10 @@ body {
 	margin: 0;
 	padding: 0;
   height: 100vh;
+	color: white;
+}
+h1#start-title {
+	color: #0f4d92;
 }
 #game-container {
 	position: absolute;
@@ -17,10 +21,18 @@ body {
 	width: 100vw;
 }
 #game-stats {
+	font-size: 24px;
 	position: absolute;
 	left: 28px;
 	top: 28px;
+	color: #0f4d92;
+	padding: 40px 30px 40px 50px;
+	min-width: 100px;
 	display: none;
+	text-align: left;
+	background-image: url("../images/bubble.svg");
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 #game-score,
 #game-timer {
@@ -49,7 +61,11 @@ h1 {
 	padding: 20px;
 }
 button#start-btn {
-	margin: 0 auto;
+	position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 	padding: 50px;
 	font-size: 18px;
 	background: transparent;
@@ -71,8 +87,8 @@ button#start-btn .arrow {
 	transform:rotate(45deg);
   border-radius: 50%;
 	position: absolute;
-	transition: opacity 1s;
-	animation-name: appear;
+	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
+	animation-name: appearRight;
   animation-duration: 0.5s;
 }
 .fish:after {
@@ -105,8 +121,8 @@ button#start-btn .arrow {
 	transform:rotate(45deg);
   border-radius: 25%;
 	position: absolute;
-	transition: opacity 1s;
-	animation-name: appear;
+	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
+	animation-name: appearRight;
   animation-duration: 0.5s;
 }
 .rare-fish:after {
@@ -157,6 +173,12 @@ button#start-btn .arrow {
   position: absolute;
   top: 40px;
 }
+.fish.left,
+.rare-fish.left {
+	transform: scaleX(-1) rotate(45deg);
+	animation-name: appearLeft;
+  animation-duration: 0.5s;
+}
 
 .fish.caught,
 .rare-fish.caught,
@@ -165,6 +187,11 @@ button#start-btn .arrow {
   animation-fill-mode: forwards;
 }
 
+.fish.disappear,
+.rare-fish.disappear {
+	animation: disappear 0.35s;
+  animation-fill-mode: forwards;
+}
 .hit-text {
 	position: absolute;
 	top: -20px;
@@ -173,14 +200,28 @@ button#start-btn .arrow {
 	animation-fill-mode: forwards;
 }
 
-@keyframes appear {
+@keyframes appearRight {
   from {
   	opacity: 0;
-  	margin-left: 50px;
   }
   to {
   	opacity: 1;
-  	margin-left: 0px;
+  }
+}
+@keyframes appearLeft {
+  from {
+  	opacity: 0;
+  }
+  to {
+  	opacity: 1;
+  }
+}
+@keyframes disappear {
+  from {
+  	opacity: 1;
+  }
+  to {
+  	opacity: 0;
   }
 }
 @keyframes float {
@@ -230,7 +271,6 @@ button#start-btn .arrow {
 		opacity: 1;
 	}
 	100% {
-		transform: translateY(-25px);
 		opacity: 0;
 	}
 }
