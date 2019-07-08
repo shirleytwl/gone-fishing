@@ -2,14 +2,16 @@
 <html>
 <head>
     <title>Gone Fishing!</title>
-    <link href="https://fonts.googleapis.com/css?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Black+Ops+One|Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
     <div id="game-container">
-        <h1 id="start-title">Gone Fishing!</h1>
-        <div id="instructions"></div>
-        <button id="start-btn"><span class="arrow"></span></button>
+        <div id="info-wrapper">
+            <h1 id="start-title">Gone Fishing!</h1>
+            <div id="instructions"></div>
+            <button id="start-btn"><span class="arrow"></span></button>
+        </div>
         <div id="game-stats">
             <span id="game-day">Day 1</span>
             <span id="game-timer">Timer: 10s</span>
@@ -19,6 +21,7 @@
     <div id="click-container">
         <span id="line"></span>
     </div>
+    <div id="bubbles"></div>
     <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

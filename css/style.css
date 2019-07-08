@@ -12,9 +12,19 @@ body {
 	color: white;
 }
 h1#start-title {
-	color: #0f4d92;
+	font-family: 'Black Ops One', cursive;
+	font-weight: 300;
+}
+#info-wrapper {
+	background-color: rgba(0,0,0,0.25);
+	padding: 20px;
+	border-radius: 20px;
+	border: 4px solid white;
 }
 #game-container {
+	display: flex;
+	justify-content: center;
+  align-items: center;
 	position: absolute;
 	text-align: center;
 	height: 100vh;
@@ -56,16 +66,15 @@ h1#start-title {
 	margin-left: 8px;
 	margin-top: -12px;
 }
+#line.zapped {
+	border: 1.5px yellow solid;
+}
 h1 {
 	margin: 0;
 	padding: 20px;
 }
 button#start-btn {
-	position: absolute;
-  margin: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  margin: 20px 0;
 	padding: 50px;
 	font-size: 18px;
 	background: transparent;
@@ -139,7 +148,28 @@ button#start-btn .arrow {
 .rare-fish:after {
 	border-color: transparent #B02C90;
 }
+.fish.left,
+.rare-fish.left {
+	transform: scaleX(-1) rotate(45deg);
+	animation-name: appearLeft;
+  animation-duration: 0.5s;
+}
 
+.fish.caught,
+.rare-fish.caught,
+.trash.caught {
+	animation: pull-up 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.fish.disappear,
+.rare-fish.disappear,
+.trash.disappear,
+.jellyfish.disappear,
+.shark.disappear{
+	animation: disappear 0.35s;
+  animation-fill-mode: forwards;
+}
 .trash {
   width: 30px;
   border-radius:50% 50% 25% 25%;
@@ -173,27 +203,31 @@ button#start-btn .arrow {
   position: absolute;
   top: 40px;
 }
-.fish.left,
-.rare-fish.left {
-	transform: scaleX(-1) rotate(45deg);
-	animation-name: appearLeft;
-  animation-duration: 0.5s;
-}
 
-.fish.caught,
-.rare-fish.caught,
-.trash.caught {
-	animation: pull-up 0.5s;
-  animation-fill-mode: forwards;
+.jellyfish {
+	width: 80px;
+	height: 100px;
+	background-image:url(../images/jellyfish.svg);
+	background-size: contain;
+	position: absolute;
+	animation-name: floatUp;
+	animation-duration: 1s;
+	animation-timing-function: linear;
 }
-
-.fish.disappear,
-.rare-fish.disappear {
-	animation: disappear 0.35s;
-  animation-fill-mode: forwards;
+.shark {
+	width: 240px;
+	height: 128px;
+	background-image:url(../images/shark.svg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	position: absolute;
+	animation-name: floatUp;
+	animation-duration: 1s;
+	animation-timing-function: linear;
 }
 .hit-text {
 	position: absolute;
+	z-index: 2;
 	top: -20px;
 	animation-name: point;
 	animation-duration: 0.75s;
@@ -251,6 +285,33 @@ button#start-btn .arrow {
   	margin-top: 0px;
   }
 }
+@keyframes floatUp {
+  0% {
+  	opacity: 0;
+  	margin-left: 0px;
+  	margin-top: 20px
+  }
+  25% {
+  	opacity: 0.25;
+  	margin-left: -10px;
+  	margin-top: 15px
+  }
+  50% {
+  	opacity: 0.5;
+  	margin-left: 0px;
+  	margin-top: 10px
+  }
+  75% {
+  	opacity: 0.75;
+  	margin-left: 10px;
+  	margin-top: 5px
+  }
+  100% {
+  	opacity: 1;
+  	margin-left: 0px;
+  	margin-top: 0px;
+  }
+}
 
 @keyframes pull-up {
 	from {
@@ -273,4 +334,33 @@ button#start-btn .arrow {
 	100% {
 		opacity: 0;
 	}
+}
+
+#bubbles {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+#bubbles div {
+  border: solid 2px rgba(255,255,255,0.125);
+  border-radius: 100%;
+  position: absolute;
+  visibility: hidden;
+  animation: fade 10s infinite;
+}
+
+@keyframes fade {
+  from {
+    bottom: -24px;
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    bottom: 120%;
+  }
 }
