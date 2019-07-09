@@ -61,7 +61,7 @@ h2 {
 	height: 100vh;
 	width: 75vw;
 	margin: 0 auto;
-	cursor:url(../images/hook.cur) 12 16,auto;
+	cursor: none;
 }
 #line{
 	display: block;
@@ -72,6 +72,16 @@ h2 {
 	transform: translate(-12.5vw,-100%);
 	margin-left: 8px;
 	margin-top: -12px;
+}
+#line:after {
+	content:"";
+	display:block;
+	height: 30px;
+	width: 30px;
+	position: absolute;
+	bottom: -30px;
+	left:-21px;
+	background-image: url("../images/hook.svg");
 }
 #line.zapped {
 	border: 1.5px yellow solid;

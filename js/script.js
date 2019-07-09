@@ -8,6 +8,7 @@ window.onload = function() {
     const instructions = document.querySelector("#instructions");
     const startBtn = document.querySelector("#start-btn");
     const gameStats = document.querySelector("#game-stats");
+    const gameGoal = document.querySelector("#game-goal");
     const gameDay = document.querySelector("#game-day");
     const gameTimer = document.querySelector("#game-timer");
     const gameScore = document.querySelector("#game-score");
@@ -19,29 +20,35 @@ window.onload = function() {
     var gameTimerInterval = null;
     var day = 0;
     var score = 0;
+    var currentScore = 0;
     var fishTracker = [0,0,0,0] //first item is fish, second is rare fish, third is trash, fourth is jellyfish. no sharks as it will lead to autolose
 
     //initialise the create items interval variables
-    var createFishes = null;
-    var createRareFishes = null;
-    var createTrashes = null;
-    var createJellyfishes = null;
-    var createSharks = null;
+    var createFishInterval = null;
+    var createRareFishInterval = null;
+    var createTrashInterval = null;
+    var createJellyfishInterval = null;
+    var createSharkInterval = null;
 
     var days = [{
         "day": 0,
-        "instruction": "You are on a fishing trip for a week.<br>You are required to catch at least <u>10 fishes</u> a day!<br>"
+        "score": 25,
+        "instruction": "You are on a fishing trip for a week.<br>"
     },{
         "day": 1,
+        "score": 30,
         "instruction": "You can catch rare fishes now.<br>They are fast, so be ready!"
     },{
         "day": 2,
+        "score": 35,
         "instruction": "Lately, more trash are found in the ocean.<br>There is penalty if you catch some.<br> Let's continue and avoid the trash!"
     },{
         "day": 3,
+        "score": 40,
         "instruction": "Jellyfishes have invaded this ocean region.<br>You will get stunned if you catch them<br>Let's continue and avoid getting stunned by them!"
     },{
         "day": 4,
+        "score": 45,
         "instruction": "Sharks have been sighted lately.<br>You have to restart the entire week if you catch them!<br>Let's continue and not provoke them!"
     }];
 
@@ -83,6 +90,7 @@ window.onload = function() {
 
     //start game function
     function startGame () {
+        //day = 4;
         //initialise sounds
         blop = new sound('sfx/fish.mp3');
         rareBlop = new sound('sfx/rare-fish.mp3');
@@ -95,10 +103,12 @@ window.onload = function() {
             fishTracker = [0,0,0,0,0];
             score = 0;
         }
+        currentScore=0;
         infoWrapper.style.display = "none";
         startTitle.style.display = "none";
         clickContainer.style.display = "block";
         gameStats.style.display = "block";
+        gameGoal.style.display = "block";
         createItems();
     }
     //create items function
@@ -106,36 +116,37 @@ window.onload = function() {
         createTimer();
         day++;
         gameDay.innerText = "Day 0"+day;
+        gameGoal.innerText = `Goal: ${currentScore}/${days[day-1].score}`;
         //start creating items depending on the day
         switch (day) {
             case 1:
-                createFishes = setInterval(createFish, 300);
+                createFishInterval = setInterval(createFish, 300);
                 break;
 
             case 2:
-                createFishes = setInterval(createFish, 300);
-                createRareFishes = setInterval(createRareFish, 1500);
+                createFishInterval = setInterval(createFish, 300);
+                createRareFishInterval = setInterval(createRareFish, 2200);
                 break;
 
             case 3:
-                createFishes = setInterval(createFish, 300);
-                createRareFishes = setInterval(createRareFish, 1500);
-                createTrashes = setInterval(createTrash, 1000);
+                createFishInterval = setInterval(createFish, 300);
+                createRareFishInterval = setInterval(createRareFish, 1500);
+                createTrashInterval = setInterval(createTrash, 1000);
                 break;
 
             case 4:
-                createFishes = setInterval(createFish, 300);
-                createRareFishe = setInterval(createRareFish, 1500);
-                createTrashes = setInterval(createTrash, 1500);
-                createJellyfishes = setInterval(createJellyfish,2000);
+                createFishInterval = setInterval(createFish, 250);
+                createRareFishInterval = setInterval(createRareFish, 1250);
+                createTrashInterval = setInterval(createTrash, 1500);
+                createJellyfishInterval = setInterval(createJellyfish,2000);
                 break;
 
             case 5:
-                createFishes = setInterval(createFish, 1500);
-                createRareFishe = setInterval(createRareFish, 3000);
-                createTrashes = setInterval(createTrash, 2000);
-                createJellyfishes = setInterval(createJellyfish,3000);
-                createSharks = setInterval(createShark,4000);
+                createFishInterval = setInterval(createFish, 200);
+                createRareFishInterval = setInterval(createRareFish, 1100);
+                createTrashInterval = setInterval(createTrash, 1500);
+                createJellyfishInterval = setInterval(createJellyfish,2000);
+                createSharkInterval = setInterval(createShark,4000);
                 break;
         }
     }
@@ -269,21 +280,21 @@ window.onload = function() {
                 }
                 setInterval(function(){
                     if (item.classList.contains("fish")) {
-                        leftPos+=50;
+                        leftPos+=45;
                     }
                     else if (item.classList.contains("rare-fish")){
-                        leftPos+=80;
+                        leftPos+=65;
                     }
                     else if (item.classList.contains("jellyfish")){
                         leftPos+=5;
                     }
                     else if (item.classList.contains("shark")){
-                        leftPos+=10;
+                        leftPos+=15;
                         if (topPos>mousePosition.y) {
-                            topPos-=5;
+                            topPos-=10;
                         }
                         else {
-                            topPos+=5;
+                            topPos+=10;
                         }
                     }
                     item.style.left = leftPos+"px";
@@ -301,21 +312,21 @@ window.onload = function() {
                 }
                 setInterval(function(){
                     if (item.classList.contains("fish")) {
-                       leftPos-=50;
+                       leftPos-=45;
                     }
                     else if (item.classList.contains("rare-fish")){
-                       leftPos-=80;
+                       leftPos-=65;
                     }
                     else if (item.classList.contains("jellyfish")){
                         leftPos-=5;
                     }
                     else if (item.classList.contains("shark")){
-                        leftPos-=10;
+                        leftPos-=15;
                         if (topPos>mousePosition.y) {
-                            topPos-=5;
+                            topPos-=10;
                         }
                         else {
-                            topPos+=5;
+                            topPos+=10;
                         }
                     }
                     item.style.left = leftPos+"px";
@@ -347,6 +358,7 @@ window.onload = function() {
                     hitText.style.color = "white";
                     blop.play();
                     score++;
+                    currentScore++;
                     fishTracker[0]++;
                 }
                 else if (type.contains("rare-fish")) {
@@ -354,6 +366,7 @@ window.onload = function() {
                     hitText.style.color = "white";
                     rareBlop.play();
                     score+=5;
+                    currentScore+=5;
                     fishTracker[1]++;
                 }
                 else if (type.contains("trash")){
@@ -361,16 +374,19 @@ window.onload = function() {
                     hitText.style.color = "red";
                     trashSound.play();
                     score-=3;
+                    currentScore-3;
                     fishTracker[2]++;
                 }
                 else if (type.contains("jellyfish")){
                     fishingLine.classList.add("zapped");
+                    clickContainer.classList.add("zapped");
                     hitText.innerText = "zap!";
                     bzzt.play();
                     hitText.style.color = "yellow";
                     fishTracker[2]++;
                     setTimeout(function() {
                         fishingLine.classList.remove("zapped");
+                        clickContainer.classList.remove("zapped");
                     }, 2000);
                 }
                 else if (type.contains("shark")){
@@ -382,31 +398,39 @@ window.onload = function() {
                     clickContainer.removeChild(hitText);
                 }, 1000);
                 gameScore.innerText = `Score: ${score}`;
+                gameGoal.innerText = `Goal: ${currentScore}/${days[day-1].score}`;
             }
         }
     }
     function endDay(died) {
         bgm.stop();
         clearInterval(gameTimerInterval);
-        clearInterval(createFishes);
-        clearInterval(createRareFishes);
-        clearInterval(createTrashes);
-        clearInterval(createJellyfishes);
-        clearInterval(createSharks);
+        clearInterval(createFishInterval);
+        clearInterval(createRareFishInterval);
+        clearInterval(createTrashInterval);
+        clearInterval(createJellyfishInterval);
+        clearInterval(createSharkInterval);
         let remainingItems = document.querySelectorAll(".item");
         for (var i=0;i<remainingItems.length;i++){
             clickContainer.removeChild(remainingItems[i]);
         }
         gameStats.style.display = "none";
         clickContainer.style.display = "none";
+        gameGoal.style.display = "none";
         startBtn.style.top = "66%";
         if (!died) {
             console.log (`Day${day}`);
-            if (day >= 5) {
-            instructions.innerHTML = `<h2>END OF DAY 0${day}</h2>Your score so far: ${score}</p><p>${days[day].instruction}</p>`;
+            if (day < 5) {
+                if (currentScore<=days[day-1].score){
+                    instructions.innerHTML = `<h2>END OF DAY 0${day}</h2>Your score for the day: ${currentScore}</p><p>Your score is not high enough. Please try again!</p>`;
+                    day=0;
+                }
+                else {
+                    instructions.innerHTML = `<h2>END OF DAY 0${day}</h2>Your score for the day: ${currentScore}</p><p>${days[day].instruction}</p>`;
+                }
             }
             else {
-                instructions.innerHTML = `<h2>You have finished the entire week!</h2><p>You have caught ${fishTracker[0]} fishes, ${fishTracker[1]} rare fishes, ${fishTracker[2]} trash and ${fishTracker[2]} jellyfishes.<br>Your score: ${score}</p>`;
+                instructions.innerHTML = `<h2>You have finished the entire week!</h2><p>You have caught ${fishTracker[0]} fishes, ${fishTracker[1]} rare fishes, ${fishTracker[2]} trash and ${fishTracker[2]} jellyfishes.<br>Your total score: ${score}</p>`;
                 day=0;
             }
 
