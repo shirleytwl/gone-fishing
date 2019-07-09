@@ -5,6 +5,7 @@ body {
 	background-image: -o-linear-gradient(top, #00C5D9, #066A9B);
 	background-image: linear-gradient(top, #00C5D9, #066A9B);
 	font-family: 'Patrick Hand', cursive;
+  letter-spacing: 0.25px;
 	font-size: 21px;
 	margin: 0;
 	padding: 0;
@@ -23,7 +24,9 @@ h2 {
 	padding: 20px;
 	border-radius: 20px;
 	border: 4px solid white;
+	position: relative;
 }
+
 #game-container {
 	display: flex;
 	flex-direction: column;
@@ -40,20 +43,24 @@ h2 {
 	left: 28px;
 	top: 28px;
 	color: #0f4d92;
-	padding: 40px 30px 40px 50px;
 	min-width: 100px;
 	display: none;
 	text-align: left;
-	background-image: url("../images/bubble.svg");
-	background-size: contain;
-	background-repeat: no-repeat;
+	flex-direction: column;
+	align-items: center;
 }
 #game-day {
 	font-family: 'Black Ops One', cursive;
 }
-#game-score,
-#game-timer {
+#game-score {
+	margin-top: 8px;
+	font-size: 21px;
 	display:block;
+}
+#game-goal {
+	font-size: 32px;
+	position: absolute;
+	top:20px;
 }
 #click-container{
 	display: none;
@@ -84,7 +91,7 @@ h2 {
 	background-image: url("../images/hook.svg");
 }
 #line.zapped {
-	border: 1.5px yellow solid;
+	border: 1.5px #ffff33 solid;
 }
 h1 {
 	margin: 0;
@@ -250,6 +257,7 @@ button#start-btn .arrow {
 	animation-timing-function: linear;
 }
 .hit-text {
+	font-size: 28px;
 	position: absolute;
 	z-index: 2;
 	top: -20px;
@@ -379,4 +387,68 @@ button#start-btn .arrow {
   to {
     bottom: 120%;
   }
+}
+
+#clock {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	top: 80px;
+}
+/* timer */
+svg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.chart-gauge {
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  text-anchor: middle;
+  dominant-baseline: central;
+	alignment-baseline: middle;
+  stroke-linecap: round;
+}
+.timer-time {
+	fill: #FFFFFF;
+	transition: 3s;
+}
+.timer-time.warning {
+	fill: #ff5252;
+	animation: shake 0.2s infinite;
+}
+.timer-backdrop {
+	transform: rotate(-90deg);
+	transform-origin: center;
+  fill: none;
+  stroke: rgba(255,255,255,.2);
+  stroke-width: 5;
+}
+.timer-gauge {
+	transform: rotate(-90deg);
+	transform-origin: center;
+  fill: none;
+  stroke: #FFF;
+  stroke-width: 5;
+  animation-iteration-count: 1;
+  stroke-dashoffset: 0;
+	transition-duration: 15s;
+	transition-timing-function: linear;
+}
+.ticking {
+	stroke-dashoffset: 360;
+}
+
+@keyframes fill {
+  0%   { stroke-dashoffset: 360; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes shake {
+	0% { letter-spacing:4px; }
+	50% { letter-spacing:0px; }
+	100% { letter-spacing:4px; }
 }

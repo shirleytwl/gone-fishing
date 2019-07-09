@@ -11,8 +11,8 @@ window.onload = function() {
     const gameGoal = document.querySelector("#game-goal");
     const gameDay = document.querySelector("#game-day");
     const gameTimer = document.querySelector("#game-timer");
+    const gameTimerGauge = document.querySelector(".timer-gauge");
     const gameScore = document.querySelector("#game-score");
-
     var mousePosition = {
         x:0,
         y:0
@@ -32,8 +32,8 @@ window.onload = function() {
 
     var days = [{
         "day": 0,
-        "score": 25,
-        "instruction": "You are on a fishing trip for a week.<br>"
+        "score": 20,
+        "instruction": "<p>You are on a fishing trip!<br>There are total of 5 days to go through.<br>You need to get a certain score to proceed to the next day</p><p>Happy fishing!</p>"
     },{
         "day": 1,
         "score": 30,
@@ -107,12 +107,13 @@ window.onload = function() {
         infoWrapper.style.display = "none";
         startTitle.style.display = "none";
         clickContainer.style.display = "block";
-        gameStats.style.display = "block";
+        gameStats.style.display = "flex";
         gameGoal.style.display = "block";
         createItems();
     }
     //create items function
     function createItems() {
+        gameTimerGauge.classList.add("ticking");
         createTimer();
         day++;
         gameDay.innerText = "Day 0"+day;
@@ -120,16 +121,16 @@ window.onload = function() {
         //start creating items depending on the day
         switch (day) {
             case 1:
-                createFishInterval = setInterval(createFish, 300);
+                createFishInterval = setInterval(createFish, 250);
                 break;
 
             case 2:
-                createFishInterval = setInterval(createFish, 300);
+                createFishInterval = setInterval(createFish, 250);
                 createRareFishInterval = setInterval(createRareFish, 2200);
                 break;
 
             case 3:
-                createFishInterval = setInterval(createFish, 300);
+                createFishInterval = setInterval(createFish, 250);
                 createRareFishInterval = setInterval(createRareFish, 1500);
                 createTrashInterval = setInterval(createTrash, 1000);
                 break;
@@ -153,16 +154,22 @@ window.onload = function() {
     //create timer function
     function createTimer () {
         gameTimer.innerText = "Time: 15s";
-        gameScore.innerText = "Score: 0";
+        gameScore.innerText = "Total Score: 0";
         let sec = 0;
         gameTimerInterval = setInterval(startGameTimer, 1000);
         function startGameTimer () {
-            gameTimer.innerText = `Time: ${15-sec}s`
+            gameTimer.textContent = 15-sec+"s";
             if (sec === 15) {
                 sec = 0;
                 endDay(false);
+                gameTimer.textContent = 15-sec+"s";
+                gameTimer.classList.remove("warning");
+                gameTimerGauge.classList.remove("ticking");
             }
             else {
+                if (sec > 9){
+                    gameTimer.classList.add("warning");
+                }
                 sec++
             }
         }
@@ -266,7 +273,7 @@ window.onload = function() {
 
     function setPosition(item) {
         let leftPos = Math.floor(Math.random() * (clickContainer.offsetWidth-100));
-        let topPos = Math.floor(Math.random() * (clickContainer.offsetHeight-100));
+        let topPos = Math.floor(Math.random() * ((clickContainer.offsetHeight/5*4)-100)+(clickContainer.offsetHeight/5));
         // if it a type of sea creature and is not trash
         if (!item.classList.contains("trash")) {
             let randomNum = Math.floor(Math.random()*2);
@@ -355,7 +362,7 @@ window.onload = function() {
                 this.classList.add("caught");
                 if (type.contains("fish")) {
                     hitText.innerText = "+1";
-                    hitText.style.color = "white";
+                    hitText.style.color = "#00ffcd";
                     blop.play();
                     score++;
                     currentScore++;
@@ -363,7 +370,7 @@ window.onload = function() {
                 }
                 else if (type.contains("rare-fish")) {
                     hitText.innerText = "+5";
-                    hitText.style.color = "white";
+                    hitText.style.color = "#9766d3";
                     rareBlop.play();
                     score+=5;
                     currentScore+=5;
@@ -371,7 +378,7 @@ window.onload = function() {
                 }
                 else if (type.contains("trash")){
                     hitText.innerText = "-3";
-                    hitText.style.color = "red";
+                    hitText.style.color = "#ff5252";
                     trashSound.play();
                     score-=3;
                     currentScore-3;
@@ -382,7 +389,7 @@ window.onload = function() {
                     clickContainer.classList.add("zapped");
                     hitText.innerText = "zap!";
                     bzzt.play();
-                    hitText.style.color = "yellow";
+                    hitText.style.color = "#ffff33";
                     fishTracker[2]++;
                     setTimeout(function() {
                         fishingLine.classList.remove("zapped");
@@ -397,7 +404,7 @@ window.onload = function() {
                 setTimeout(function() {
                     clickContainer.removeChild(hitText);
                 }, 1000);
-                gameScore.innerText = `Score: ${score}`;
+                gameScore.innerText = `Total Score: ${score}`;
                 gameGoal.innerText = `Goal: ${currentScore}/${days[day-1].score}`;
             }
         }
@@ -430,7 +437,7 @@ window.onload = function() {
                 }
             }
             else {
-                instructions.innerHTML = `<h2>You have finished the entire week!</h2><p>You have caught ${fishTracker[0]} fishes, ${fishTracker[1]} rare fishes, ${fishTracker[2]} trash and ${fishTracker[2]} jellyfishes.<br>Your total score: ${score}</p>`;
+                instructions.innerHTML = `<h2>You have finished the entire week!</h2><p>You have caught ${fishTracker[0]} fishes, ${fishTracker[1]} rare fishes, ${fishTracker[2]} trash and ${fishTracker[2]} jellyfishes.<br>Your Total Score: ${score}</p>`;
                 day=0;
             }
 
@@ -442,7 +449,6 @@ window.onload = function() {
         infoWrapper.style.display = "block";
         startTitle.style.display = "block";
     }
-
     //Make bubbles
     var bubbles = document.getElementById('bubbles');
     var randomN = function(start, end){
