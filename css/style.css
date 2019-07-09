@@ -15,6 +15,9 @@ h1#start-title {
 	font-family: 'Black Ops One', cursive;
 	font-weight: 300;
 }
+h2 {
+	margin-top: 0;
+}
 #info-wrapper {
 	background-color: rgba(0,0,0,0.25);
 	padding: 20px;
@@ -23,6 +26,7 @@ h1#start-title {
 }
 #game-container {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
   align-items: center;
 	position: absolute;
@@ -43,6 +47,9 @@ h1#start-title {
 	background-image: url("../images/bubble.svg");
 	background-size: contain;
 	background-repeat: no-repeat;
+}
+#game-day {
+	font-family: 'Black Ops One', cursive;
 }
 #game-score,
 #game-timer {
@@ -97,7 +104,7 @@ button#start-btn .arrow {
   border-radius: 50%;
 	position: absolute;
 	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
-	animation-name: appearRight;
+	animation-name: appear;
   animation-duration: 0.5s;
 }
 .fish:after {
@@ -131,7 +138,7 @@ button#start-btn .arrow {
   border-radius: 25%;
 	position: absolute;
 	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
-	animation-name: appearRight;
+	animation-name: appear;
   animation-duration: 0.5s;
 }
 .rare-fish:after {
@@ -149,9 +156,14 @@ button#start-btn .arrow {
 	border-color: transparent #B02C90;
 }
 .fish.left,
-.rare-fish.left {
+.rare-fish.left{
 	transform: scaleX(-1) rotate(45deg);
-	animation-name: appearLeft;
+	animation-name: appear;
+  animation-duration: 0.5s;
+}
+.shark.left {
+	transform: scaleX(-1);
+	animation-name: appear;
   animation-duration: 0.5s;
 }
 
@@ -210,6 +222,7 @@ button#start-btn .arrow {
 	background-image:url(../images/jellyfish.svg);
 	background-size: contain;
 	position: absolute;
+	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
 	animation-name: floatUp;
 	animation-duration: 1s;
 	animation-timing-function: linear;
@@ -221,6 +234,7 @@ button#start-btn .arrow {
 	background-size: contain;
 	background-repeat: no-repeat;
 	position: absolute;
+	transition: left 0.1s linear, top 0.1s linear, opacity 1s linear;
 	animation-name: floatUp;
 	animation-duration: 1s;
 	animation-timing-function: linear;
@@ -234,15 +248,7 @@ button#start-btn .arrow {
 	animation-fill-mode: forwards;
 }
 
-@keyframes appearRight {
-  from {
-  	opacity: 0;
-  }
-  to {
-  	opacity: 1;
-  }
-}
-@keyframes appearLeft {
+@keyframes appear {
   from {
   	opacity: 0;
   }
