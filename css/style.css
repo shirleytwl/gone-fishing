@@ -447,11 +447,11 @@ svg {
   stroke-width: 5;
   animation-iteration-count: infinite;
   stroke-dashoffset: 0;
-	transition-duration: 15s;
-	transition-timing-function: linear;
+  stroke-dasharray: 250;
+	transition: 15s linear;
 }
-.ticking {
-	stroke-dashoffset: 360;
+.timer-gauge.ticking {
+	stroke-dashoffset: 250;
 }
 
 @keyframes fill {

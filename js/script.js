@@ -153,7 +153,7 @@ window.onload = function() {
     }
     //create timer function
     function createTimer () {
-        gameTimer.innerText = "Time: 15s";
+        gameTimer.innerText = "15s";
         gameScore.innerText = "Total Score: 0";
         let sec = 0;
         gameTimerInterval = setInterval(startGameTimer, 1000);
