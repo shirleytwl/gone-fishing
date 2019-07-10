@@ -110,10 +110,10 @@ window.onload = function() {
         gameStats.style.display = "flex";
         gameGoal.style.display = "block";
         createItems();
+        gameTimerGauge.classList.add("ticking");
     }
     //create items function
     function createItems() {
-        gameTimerGauge.classList.add("ticking");
         createTimer();
         day++;
         gameDay.innerText = "Day 0"+day;
