@@ -448,7 +448,7 @@ svg {
   animation-iteration-count: infinite;
   stroke-dashoffset: 0;
   stroke-dasharray: 250;
-	transition: 15s linear;
+	transition: 14s linear;
 }
 .timer-gauge.ticking {
 	stroke-dashoffset: 250;

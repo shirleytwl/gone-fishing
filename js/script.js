@@ -110,7 +110,6 @@ window.onload = function() {
         gameStats.style.display = "flex";
         gameGoal.style.display = "block";
         createItems();
-        gameTimerGauge.classList.add("ticking");
     }
     //create items function
     function createItems() {
@@ -167,6 +166,9 @@ window.onload = function() {
                 gameTimerGauge.classList.remove("ticking");
             }
             else {
+                if (sec === 1) {
+                    gameTimerGauge.classList.add("ticking");
+                }
                 if (sec > 9){
                     gameTimer.classList.add("warning");
                 }
