@@ -12,5 +12,6 @@ Avoid obstacles such a trashes, jellyfishes and sharks as each come with their o
 
 –
 
-⬇⬇ Play it here ⬇⬇
+↓↓ Play it here ↓↓
+
 https://shirleytwl.github.io/ga-assignment-01/
