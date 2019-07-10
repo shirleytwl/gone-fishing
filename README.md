@@ -1,10 +1,7 @@
 GA Project 01
 
- __                  
-/o \/| 
-\__/\| 
- 
 –
+
 ⬺ GONE FISHING! ⬺
 
 You are on a fishing trip for a week and will need to play through 5 days.
